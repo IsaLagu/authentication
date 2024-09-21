@@ -20,16 +20,22 @@ public class SecurityConfig {
         public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
                 http
                                 .authorizeHttpRequests(authz -> authz
-                                                .requestMatchers("/admin/**").hasAuthority("WRITE") // Solo quienes
-                                                                                                    // tienen permiso
-                                                                                                    // WRITE pueden
-                                                                                                    // acceder
-                                                .requestMatchers("/user/**").hasAuthority("READ") // Solo quienes tienen
-                                                                                                  // permiso READ pueden
-                                                                                                  // acceder
-                                                .anyRequest().authenticated() // El resto de las rutas deben estar
-                                                                              // autenticadas
-                                )
+                                                .requestMatchers("/admin/**").hasRole("SUPER_ADMIN") // Solo SUPER_ADMIN
+                                                                                                     // puede acceder a
+                                                                                                     // estas rutas
+                                                .requestMatchers("/group/**")
+                                                .hasAnyAuthority("CREATE_GROUP", "UPDATE_GROUP", "DELETE_GROUP") // Creator
+                                                                                                                 // puede
+                                                                                                                 // acceder
+                                                                                                                 // a
+                                                                                                                 // estas
+                                                                                                                 // rutas
+                                                                                                                 // para
+                                                                                                                 // CRUD
+                                                .requestMatchers("/group/view/**")
+                                                .hasAnyAuthority("READ_GROUP", "JOIN_GROUP") // User puede unirse o leer
+                                                                                             // el grupo
+                                                .anyRequest().authenticated())
                                 .formLogin(form -> form
                                                 .permitAll() // Permite que el formulario de login sea accesible para
                                                              // todos

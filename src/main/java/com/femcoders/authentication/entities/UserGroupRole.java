@@ -1,4 +1,4 @@
-package com.femcoders.authentication.services;
+package com.femcoders.authentication.entities;
 
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;

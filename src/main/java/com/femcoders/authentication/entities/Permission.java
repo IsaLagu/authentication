@@ -1,4 +1,4 @@
-package com.femcoders.authentication.services;
+package com.femcoders.authentication.entities;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -24,6 +24,15 @@ public class Permission {
 
     @ManyToMany(mappedBy = "permissions")
     private Set<Role> roles = new HashSet<>();
+
+    // Constructor vacío (requerido por Hibernate)
+    public Permission() {
+    }
+
+    // Constructor opcional para facilitar la creación de objetos
+    public Permission(String permissionName) {
+        this.permissionName = permissionName;
+    }
 
     public Long getId() {
         return id;

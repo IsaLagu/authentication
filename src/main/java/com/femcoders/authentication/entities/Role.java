@@ -1,4 +1,4 @@
-package com.femcoders.authentication.services;
+package com.femcoders.authentication.entities;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -36,6 +36,13 @@ public class Role {
     // Relación One-to-Many con UserGroupRole
     @OneToMany(mappedBy = "role")
     private Set<UserGroupRole> userGroupRoles = new HashSet<>();
+
+    public Role() {
+    }
+
+    public Role(String roleName) {
+        this.roleName = roleName;
+    }
 
     public Long getId() {
         return id;
