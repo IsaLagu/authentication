@@ -29,17 +29,13 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(userRegistrationDTO.getPassword()));
         user.setEnabled(true);
 
-        // Guarda al usuario primero para asegurar que coge un ID
-        user = userRepository.save(user);
-
-        // Ahora que el user tiene un ID, añade roles y guarda de nuevo
+        // Asignar rol de usuario por defecto
         Role userRole = roleRepository.findByRoleName("USER")
                 .orElseThrow(() -> new RuntimeException("Role not found"));
 
-        user.getRoles().add(userRole); // Añade role a user
-        userRole.getUsers().add(user); // Añade user a role
+        user.getRoles().add(userRole); // Agregar el rol al usuario
+        // No es necesario userRepository.save(userRole) si tienes cascade
 
-        // Guarda user con roles
-        userRepository.save(user);
+        userRepository.save(user); // Guardar el usuario y los roles (gracias a CascadeType.PERSIST)
     }
 }
