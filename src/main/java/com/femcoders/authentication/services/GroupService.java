@@ -3,7 +3,7 @@ package com.femcoders.authentication.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.femcoders.authentication.DTO.GroupDTO;
+import com.femcoders.authentication.dto.GroupDTO;
 import com.femcoders.authentication.entities.Group;
 import com.femcoders.authentication.entities.User;
 import com.femcoders.authentication.repositories.GroupRepository;

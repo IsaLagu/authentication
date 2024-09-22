@@ -1,4 +1,4 @@
-package com.femcoders.authentication.DTO;
+package com.femcoders.authentication.dto;
 
 public class LoginRequestDTO {
 

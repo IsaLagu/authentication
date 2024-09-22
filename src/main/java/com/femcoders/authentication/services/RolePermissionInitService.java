@@ -39,10 +39,10 @@ public class RolePermissionInitService {
         superAdmin.setPermissions(
                 new HashSet<>(Arrays.asList(createGroup, readGroup, updateGroup, deleteGroup, joinGroup)));
 
-        Role creator = new Role("Creator");
+        Role creator = new Role("CREATOR");
         creator.setPermissions(new HashSet<>(Arrays.asList(createGroup, readGroup, updateGroup, deleteGroup)));
 
-        Role user = new Role("User");
+        Role user = new Role("USER");
         user.setPermissions(new HashSet<>(Arrays.asList(readGroup, joinGroup)));
 
         roleRepository.saveAll(Arrays.asList(superAdmin, creator, user));

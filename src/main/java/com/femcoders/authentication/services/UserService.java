@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.femcoders.authentication.DTO.UserRegistrationDTO;
+import com.femcoders.authentication.dto.UserRegistrationDTO;
 import com.femcoders.authentication.entities.Role;
 import com.femcoders.authentication.entities.User;
 import com.femcoders.authentication.repositories.RoleRepository;
@@ -29,11 +29,17 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(userRegistrationDTO.getPassword()));
         user.setEnabled(true);
 
-        // Asignar rol de usuario por defecto
+        // Guarda al usuario primero para asegurar que coge un ID
+        user = userRepository.save(user);
+
+        // Ahora que el user tiene un ID, añade roles y guarda de nuevo
         Role userRole = roleRepository.findByRoleName("USER")
                 .orElseThrow(() -> new RuntimeException("Role not found"));
-        user.getRoles().add(userRole);
 
-        userRepository.save(user); // Guardar el usuario en la base de datos
+        user.getRoles().add(userRole); // Añade role a user
+        userRole.getUsers().add(user); // Añade user a role
+
+        // Guarda user con roles
+        userRepository.save(user);
     }
 }

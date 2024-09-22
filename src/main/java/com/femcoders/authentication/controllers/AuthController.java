@@ -7,9 +7,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
-import com.femcoders.authentication.DTO.LoginRequestDTO;
-import com.femcoders.authentication.DTO.UserRegistrationDTO;
+import com.femcoders.authentication.dto.LoginRequestDTO;
+import com.femcoders.authentication.dto.UserRegistrationDTO;
 import com.femcoders.authentication.services.UserService;
 
 @RestController
@@ -21,13 +22,12 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody LoginRequestDTO loginRequestDTO) {
-
         return ResponseEntity.ok("Login successful");
     }
 
     @GetMapping("/register")
-    public String showRegistrationForm() {
-        return "register"; // Retorna la vista HTML del formulario de registro
+    public ModelAndView showRegistrationForm() {
+        return new ModelAndView("register"); // Nombre de la vista en la carpeta templates
     }
 
     @PostMapping("/register")

@@ -23,25 +23,18 @@ public class SecurityConfig {
 
         @Bean
         public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-                http.cors(cors -> cors.configurationSource(corsConfigurationSource()))
+                http.cors(cors -> cors.disable())
                                 .csrf(csrf -> csrf.disable()).authorizeHttpRequests(authz -> authz
-                                                .requestMatchers("/admin/**").hasAuthority("SUPER_ADMIN") // Solo
-                                                                                                          // SUPER_ADMIN
-                                                                                                          // puede
-                                                                                                          // acceder a
-                                                                                                          // estas rutas
+                                                .requestMatchers("/auth/login", "/auth/register", "/resources/**",
+                                                                "/static/**",
+                                                                "/css/**", "/js/**")
+                                                .permitAll() // Permitir acceso a rutas de login y registro sin
+                                                             // autenticación
+                                                .requestMatchers("/admin/**").hasAuthority("SUPER_ADMIN")
                                                 .requestMatchers("/group/**")
-                                                .hasAnyAuthority("CREATE_GROUP", "UPDATE_GROUP", "DELETE_GROUP") // Creator
-                                                                                                                 // puede
-                                                                                                                 // acceder
-                                                                                                                 // a
-                                                                                                                 // estas
-                                                                                                                 // rutas
-                                                                                                                 // para
-                                                                                                                 // CRUD
+                                                .hasAnyAuthority("CREATE_GROUP", "UPDATE_GROUP", "DELETE_GROUP")
                                                 .requestMatchers("/group/view/**")
-                                                .hasAnyAuthority("READ_GROUP", "JOIN_GROUP") // User puede unirse o leer
-                                                                                             // el grupo
+                                                .hasAnyAuthority("READ_GROUP", "JOIN_GROUP")
                                                 .anyRequest().authenticated())
                                 .formLogin(form -> form
                                                 .loginPage("/login") // Ruta a la página personalizada de login
