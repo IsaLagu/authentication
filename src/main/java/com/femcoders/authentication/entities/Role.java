@@ -37,6 +37,9 @@ public class Role {
     @OneToMany(mappedBy = "role")
     private Set<UserGroupRole> userGroupRoles = new HashSet<>();
 
+    @ManyToMany
+    private Set<User> users = new HashSet<>();
+
     public Role() {
     }
 
@@ -74,5 +77,13 @@ public class Role {
 
     public void setUserGroupRoles(Set<UserGroupRole> userGroupRoles) {
         this.userGroupRoles = userGroupRoles;
+    }
+
+    public Set<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Set<User> users) {
+        this.users = users;
     }
 }

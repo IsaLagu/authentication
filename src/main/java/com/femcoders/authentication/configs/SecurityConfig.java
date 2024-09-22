@@ -9,6 +9,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.List;
 
 import javax.sql.DataSource;
 
@@ -18,11 +23,13 @@ public class SecurityConfig {
 
         @Bean
         public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-                http
-                                .authorizeHttpRequests(authz -> authz
-                                                .requestMatchers("/admin/**").hasRole("SUPER_ADMIN") // Solo SUPER_ADMIN
-                                                                                                     // puede acceder a
-                                                                                                     // estas rutas
+                http.cors(cors -> cors.configurationSource(corsConfigurationSource()))
+                                .csrf(csrf -> csrf.disable()).authorizeHttpRequests(authz -> authz
+                                                .requestMatchers("/admin/**").hasAuthority("SUPER_ADMIN") // Solo
+                                                                                                          // SUPER_ADMIN
+                                                                                                          // puede
+                                                                                                          // acceder a
+                                                                                                          // estas rutas
                                                 .requestMatchers("/group/**")
                                                 .hasAnyAuthority("CREATE_GROUP", "UPDATE_GROUP", "DELETE_GROUP") // Creator
                                                                                                                  // puede
@@ -37,11 +44,27 @@ public class SecurityConfig {
                                                                                              // el grupo
                                                 .anyRequest().authenticated())
                                 .formLogin(form -> form
-                                                .permitAll() // Permite que el formulario de login sea accesible para
-                                                             // todos
-                                );
+                                                .loginPage("/login") // Ruta a la página personalizada de login
+                                                .permitAll()) // Permitir acceso a todos a la página de login
+                                .logout(logout -> logout
+                                                .permitAll());
 
                 return http.build();
+        }
+
+        @Bean
+        CorsConfigurationSource corsConfigurationSource() {
+                CorsConfiguration configuration = new CorsConfiguration();
+
+                configuration.setAllowedOrigins(List.of("http://localhost:5173"));
+                configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE"));
+                configuration.setAllowedHeaders(List.of("Authorization", "Content-Type"));
+
+                UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+
+                source.registerCorsConfiguration("/**", configuration);
+
+                return source;
         }
 
         @Bean

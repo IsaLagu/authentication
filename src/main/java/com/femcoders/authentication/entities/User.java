@@ -8,6 +8,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
@@ -30,6 +31,9 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private Set<UserGroupRole> userGroupRoles = new HashSet<>();
+
+    @ManyToMany(mappedBy = "users")
+    private Set<Role> roles = new HashSet<>();
 
     public User() {
     }
@@ -72,6 +76,14 @@ public class User {
 
     public void setUserGroupRoles(Set<UserGroupRole> userGroupRoles) {
         this.userGroupRoles = userGroupRoles;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 
 }
