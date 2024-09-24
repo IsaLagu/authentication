@@ -68,17 +68,17 @@ public class SecurityConfig {
 
                 // Consulta SQL para obtener el usuario y su contraseña
                 jdbcUserDetailsManager.setUsersByUsernameQuery(
-                                "SELECT username, password, enabled FROM users WHERE username = ?");
+                                "SELECT name, password, enabled FROM users WHERE name = ?");
 
                 // Consulta SQL para obtener los roles del usuario
                 jdbcUserDetailsManager.setAuthoritiesByUsernameQuery(
-                                "SELECT u.username, p.permission_name " +
+                                "SELECT u.name, p.permission_name " +
                                                 "FROM users u " +
                                                 "JOIN user_group_role ugr ON u.id = ugr.user_id " +
                                                 "JOIN roles r ON ugr.role_id = r.id " +
                                                 "JOIN role_permissions rp ON r.id = rp.role_id " +
                                                 "JOIN permissions p ON rp.permission_id = p.id " +
-                                                "WHERE u.username = ?");
+                                                "WHERE u.name = ?");
 
                 return jdbcUserDetailsManager;
         }
