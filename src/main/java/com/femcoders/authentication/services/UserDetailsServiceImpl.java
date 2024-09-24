@@ -23,16 +23,10 @@ import jakarta.transaction.Transactional;
 
 @Service("userDetailsService")
 @Transactional
-public class MyUserDetailsService implements UserDetailsService {
+public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
     private UserRepository userRepository;
-
-    // @Autowired
-    // private IUserService service;
-
-    // @Autowired
-    // private MessageSource messages;
 
     @Autowired
     private RoleRepository roleRepository;

@@ -1,12 +1,19 @@
 package com.femcoders.authentication.dto;
 
-public class LoginRequestDTO {
+public class UserDTO {
 
     private String name;
-
     private String password;
-
     private String email;
+
+    public UserDTO() {
+    }
+
+    public UserDTO(String name, String password, String email) {
+        this.name = name;
+        this.password = password;
+        this.email = email;
+    }
 
     public String getName() {
         return name;
