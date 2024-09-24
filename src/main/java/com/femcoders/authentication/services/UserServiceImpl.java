@@ -34,16 +34,19 @@ public class UserServiceImpl implements IUserService {
             throw new EmailExistsException("There is an account with that email address: " + accountDto.getEmail());
         }
 
-        // Create the new user account
+        // Crear el nuevo usuario
         User user = new User();
         user.setName(accountDto.getName());
         user.setPassword(passwordEncoder.encode(accountDto.getPassword())); // Aquí se codifica la contraseña
         user.setEmail(accountDto.getEmail());
 
-        // Set the default role
+        // Establecer el valor de enabled a true
+        user.setEnabled(true); // Aquí habilitas al usuario
+
+        // Asignar el rol por defecto
         user.setRoles(Arrays.asList(roleRepository.findByName("ROLE_USER")));
 
-        // Save the new user in the repository
+        // Guardar el nuevo usuario en el repositorio
         return userRepository.save(user);
     }
 

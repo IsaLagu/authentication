@@ -46,17 +46,27 @@ public class SetupDataLoader implements
             return;
         Privilege readPrivilege = createPrivilegeIfNotFound("READ_PRIVILEGE");
         Privilege writePrivilege = createPrivilegeIfNotFound("WRITE_PRIVILEGE");
+        Privilege deletePrivilege = createPrivilegeIfNotFound("DELETE_PRIVILEGE");
+        Privilege updatePrivilege = createPrivilegeIfNotFound("UPDATE_PRIVILEGE");
+        Privilege adminPrivilege = createPrivilegeIfNotFound("ADMIN_PRIVILEGE");
+        Privilege manageUsersPrivilege = createPrivilegeIfNotFound("MANAGE_USERS_PRIVILEGE");
+        Privilege manageRolesPrivilege = createPrivilegeIfNotFound("MANAGE_ROLES_PRIVILEGE");
+        Privilege managePermissionsPrivilege = createPrivilegeIfNotFound("MANAGE_PERMISSIONS_PRIVILEGE");
+        Privilege accessReportsPrivilege = createPrivilegeIfNotFound("ACCESS_REPORTS_PRIVILEGE");
+        Privilege approveContentPrivilege = createPrivilegeIfNotFound("APPROVE_CONTENT_PRIVILEGE");
 
         List<Privilege> adminPrivileges = Arrays.asList(
-                readPrivilege, writePrivilege);
+                readPrivilege, writePrivilege, deletePrivilege, updatePrivilege, adminPrivilege, manageUsersPrivilege,
+                manageRolesPrivilege, managePermissionsPrivilege, accessReportsPrivilege);
         createRoleIfNotFound("ROLE_ADMIN", adminPrivileges);
         createRoleIfNotFound("ROLE_USER", Arrays.asList(readPrivilege));
+        createRoleIfNotFound("ROLE_MODERATOR", Arrays.asList(readPrivilege, approveContentPrivilege));
 
         Role adminRole = roleRepository.findByName("ROLE_ADMIN");
         User user = new User();
-        user.setName("Test");
+        user.setName("TestAdmin");
         user.setPassword(passwordEncoder.encode("test"));
-        user.setEmail("test@test.com");
+        user.setEmail("testadmin@test.com");
         user.setRoles(Arrays.asList(adminRole));
         user.setEnabled(true);
         userRepository.save(user);

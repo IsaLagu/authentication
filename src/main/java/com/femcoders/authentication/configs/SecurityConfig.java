@@ -21,22 +21,20 @@ public class SecurityConfig {
         public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
                 http.cors(cors -> cors.disable())
                                 .csrf(csrf -> csrf.disable()).authorizeHttpRequests(authz -> authz
-                                                .requestMatchers("/auth/login", "/auth/register", "/resources/**",
-                                                                "/static/**",
-                                                                "/css/**", "/js/**")
-                                                .permitAll() // Permitir acceso a rutas de login y registro sin
-                                                             // autenticación
-                                                .requestMatchers("/admin/**").hasAuthority("SUPER_ADMIN")
-                                                .requestMatchers("/group/**")
-                                                .hasAnyAuthority("CREATE_GROUP", "UPDATE_GROUP", "DELETE_GROUP")
-                                                .requestMatchers("/group/view/**")
-                                                .hasAnyAuthority("READ_GROUP", "JOIN_GROUP")
-                                                .anyRequest().authenticated())
-                                .formLogin(form -> form
-                                                .loginPage("/login") // Ruta a la página personalizada de login
-                                                .permitAll()) // Permitir acceso a todos a la página de login
-                                .logout(logout -> logout
-                                                .permitAll());
+                                                .requestMatchers("/api/users/login", "/api/users/register")
+                                                .permitAll()); // Permitir acceso a rutas de login y registro sin
+                                                               // autenticación
+                // .requestMatchers("/admin/**").hasAuthority("SUPER_ADMIN")
+                // .requestMatchers("/group/**")
+                // .hasAnyAuthority("CREATE_GROUP", "UPDATE_GROUP", "DELETE_GROUP")
+                // .requestMatchers("/group/view/**")
+                // .hasAnyAuthority("READ_GROUP", "JOIN_GROUP")
+                // .anyRequest().authenticated())
+                // .formLogin(form -> form
+                // .loginPage("/login") // Ruta a la página personalizada de login
+                // .permitAll()) // Permitir acceso a todos a la página de login
+                // .logout(logout -> logout
+                // .permitAll());
 
                 return http.build();
         }

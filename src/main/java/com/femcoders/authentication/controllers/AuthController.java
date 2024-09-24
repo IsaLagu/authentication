@@ -13,7 +13,7 @@ import com.femcoders.authentication.services.IUserService;
 
 @RestController
 @RequestMapping("/api/users")
-public class UserController {
+public class AuthController {
 
     @Autowired
     private IUserService userService;
